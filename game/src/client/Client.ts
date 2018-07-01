@@ -42,12 +42,10 @@ class Client {
 
 	public write(id:number, data:egret.ByteArray){
 		var byte: egret.ByteArray = new egret.ByteArray();
-		let len = data.length+ 2
-		byte.writeShort(len)
 		byte.writeShort(id)
 		byte.writeBytes(data)
+		console.log(byte)
 
-		console.log(len,id,data)
-		this.conn.write(data)
+		this.conn.write(byte)
 	}
 }

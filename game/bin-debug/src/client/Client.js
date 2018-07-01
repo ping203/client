@@ -34,10 +34,12 @@ var Client = (function () {
     };
     Client.prototype.write = function (id, data) {
         var byte = new egret.ByteArray();
+        var len = data.length + 2;
+        byte.writeShort(len);
         byte.writeShort(id);
         byte.writeBytes(data);
-        console.log(byte);
-        this.conn.write(byte);
+        console.log(len, id, data);
+        this.conn.write(data);
     };
     return Client;
 }());

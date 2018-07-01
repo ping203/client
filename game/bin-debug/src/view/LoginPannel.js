@@ -36,19 +36,13 @@ var LoginPannel = (function (_super) {
         event.eventType = LoginPannel.LOGIN;
         event.obj = this;
         var protoMgr = ProtoBuffManager.getInstance();
-        var Login = protoMgr.root.lookupType("cmsg.CReqLogin");
-        var message = Login.create({ userID: 232222 });
-        console.log("message = " + JSON.stringify(message));
-        var buffer = Login.encode(message).finish();
-        console.log("buffer = " + Array.prototype.toString.call(buffer));
-        var decoded = Login.decode(buffer);
-        console.log("decoded = " + JSON.stringify(decoded));
-        // let message = Login.create({ Account: "qiu" });
-        // console.log(message)
-        // let buffer = new protobuf.Writer
-        // let d = Login.encode(message,buffer).finish();
-        // let data = Login.encode(message).finish()
-        protoMgr.sendMsg("cmsg.CReqLogin", buffer);
+        var Login = protoMgr.root.lookupType("cmsg.CReqAuth");
+        var message = Login.create({ Account: "qiu" });
+        console.log(message);
+        var buffer = new protobuf.Writer;
+        var d = Login.encode(message, buffer).finish();
+        var data = Login.encode(message).finish();
+        protoMgr.sendMsg("cmsg.CReqAuth", data);
         ViewManager.getInstance().dispatchEvent(event);
     };
     //结束界面，释放监听

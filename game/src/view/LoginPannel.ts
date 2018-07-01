@@ -32,16 +32,25 @@ class LoginPannel extends egret.Sprite {
         event.obj = this
 
         let protoMgr = ProtoBuffManager.getInstance()
-        const Login = protoMgr.root.lookupType("cmsg.CReqAuth");
+        const Login = protoMgr.root.lookupType("cmsg.CReqLogin");
+
+        let message = Login.create({ userID: 232222 });
+        console.log(`message = ${JSON.stringify(message)}`);
+
+        let buffer = Login.encode(message).finish();
+        console.log(`buffer = ${Array.prototype.toString.call(buffer)}`);
+
+        let decoded = Login.decode(buffer);
+        console.log(`decoded = ${JSON.stringify(decoded)}`);
 
 
-        let message = Login.create({ Account: "qiu" });
-        console.log(message)
-        let buffer = new protobuf.Writer
-        let d = Login.encode(message,buffer).finish();
+        // let message = Login.create({ Account: "qiu" });
+        // console.log(message)
+        // let buffer = new protobuf.Writer
+        // let d = Login.encode(message,buffer).finish();
 
-        let data = Login.encode(message).finish()
-        protoMgr.sendMsg("cmsg.CReqAuth", data)
+        // let data = Login.encode(message).finish()
+        protoMgr.sendMsg("cmsg.CReqLogin", buffer)
 
         ViewManager.getInstance().dispatchEvent(event)
     }
