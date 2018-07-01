@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package gamedef;
+import "github.com/wenxiu2199/gameserver/src/server/gameproto/gameconf/game_type.proto";
+
+// 用户登录信息
+message LoginInfo {
+    string ip = 1; //ip地址
+    string region = 2; //地区
+}
+
+message Account {
+    string Account = 1;
+    uint64 userID = 2; //玩家ID
+}
+
+// 账号额外信息
+message ExtraAccountInfo {
+    uint32 accountType = 1; // 账号类型
+    uint32 channel = 2; //渠道号
+    uint32 platform = 3; //平台号
+    string ip = 4; // ip
+    string account = 5; // 账号
+}
+
+// 用户信息
+message User {
+    uint64 userID = 1; //玩家ID
+    string nickname = 2; //昵称
+    uint32 sexID = 3; //性别
+    uint32 fightGeneralID = 4; // 上阵武将ID
+}
+
+message Individual {
+    int32 hp = 1;
+    int32 attack = 2;
+    int32 defense = 3;
+    int32 spAttack = 4;
+    int32 spDefense = 5;
+    int32 speed = 6;
+}
+
+// 武将信息
+message General {
+    uint64 pkID = 1;
+    uint32 generalID = 2; // 武将ID
+    Individual individual = 3; // 个体值
+    Individual effort = 4; // 努力值
+    repeated uint32 skills = 5; // 技能
+    uint32 level = 6; // 等级
+    int32 exp = 7; // 当前经验
+}
+
+message Item {
+    uint64 pkID = 1;
+    uint32 itemID = 2; // 道具ID
+    uint32 num = 3; // 数量
+}
+
+message UserData {
+    User user = 1;
+    repeated  General generals = 2; // 武将
+    repeated Item items = 3;
+}
+
+// ===============Game数据====================
+message Buff {
+    gameconf.SkillEffectTyp buffType = 1;
+    int32 last = 2;
+    int32 level = 3;
+}
+
+message GameGeneral {
+    uint32 generalID = 1;
+    uint32 level = 2;
+    int32 baseHp = 3;
+    int32 baseAttack = 4;
+    int32 baseDefense = 5;
+    int32 baseSpAttack = 6;
+    int32 baseSpDefense = 7;
+    int32 baseSpeed = 8;
+    int32  curHP = 9;
+    repeated Buff buffs  =10;
+    repeated uint32 skills = 11;
+    uint64 userID = 12;
+    uint64 pkID = 13;
+}
+
+enum GameStageTyp {
+    GSTInvalid = 0;
+    GSTChoose = 1; // 技能选择阶段
+    GSTAction = 2; // 行动阶段
+}
+
+// ===================================
+ enum ChessTyp {
+    CTInvalid = 0;
+    CTBlank = 1;
+    CTMine = 2;
+}
+
+message Chess {
+    ChessTyp chessType = 1; // 类型
+    bool visible = 2; // 是否可见
+    uint32 mineNum = 3;
+}
