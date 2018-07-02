@@ -11,15 +11,16 @@
 		"libs/protobuf/protobuf.js"
 	],
 	"game": [
+		"bin-debug/client/ProtoProxy.js",
 		"bin-debug/AssetAdapter.js",
-		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
 		"bin-debug/ThemeAdapter.js",
 		"bin-debug/client/Client.js",
 		"bin-debug/client/NetConn.js",
 		"bin-debug/client/ProtoEvent.js",
-		"bin-debug/client/ProtoProxy.js",
+		"bin-debug/LoadingUI.js",
+		"bin-debug/client/ServiceEvent.js",
 		"bin-debug/manager/GameManager.js",
 		"bin-debug/manager/ViewManager.js",
 		"bin-debug/proto/ProtoBuffManager.js",

@@ -26,5 +26,11 @@ class ProtoProxy extends egret.EventDispatcher {
 
 		let msg = messageType.decode(e.msg.bytes)
 		console.log(msg)
+
+		let serviceEvent = new ServiceEvent(type)
+		serviceEvent.msg = msg
+		this.dispatchEvent(serviceEvent)
 	}
+
+
 }

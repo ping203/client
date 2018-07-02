@@ -29,8 +29,10 @@ var ProtoProxy = (function (_super) {
         var type = protoMgr.getType(e.id);
         var messageType = protoMgr.root.lookupType("cmsg.CRespLogin");
         var msg = messageType.decode(e.msg.bytes);
-        console.log("mmmmm", msg);
         console.log(msg);
+        var serviceEvent = new ServiceEvent(type);
+        serviceEvent.msg = msg;
+        this.dispatchEvent(serviceEvent);
     };
     return ProtoProxy;
 }(egret.EventDispatcher));
