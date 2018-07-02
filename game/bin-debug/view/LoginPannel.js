@@ -18,8 +18,8 @@ var LoginPannel = (function (_super) {
     }
     //开启监听
     LoginPannel.prototype.start = function () {
-        // this.startBtn.touchEnabled = true;
-        // this.startBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTab, this);
+        this.startBtn.touchEnabled = true;
+        this.startBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTab, this);
     };
     //初始化
     LoginPannel.prototype.init = function () {
@@ -49,28 +49,45 @@ var LoginPannel = (function (_super) {
         this.addChild(this.startBtn);
     };
     LoginPannel.prototype.onTouchTab = function (e) {
-        var event = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT);
-        event.eventType = LoginPannel.LOGIN;
-        event.obj = this;
         var protoMgr = ProtoBuffManager.getInstance();
-        var Login = protoMgr.root.lookupType("cmsg.CReqLogin");
-        var message = Login.create({ userID: 232222 });
+        var auth = protoMgr.root.lookupType("cmsg.CReqAuth");
+        var message = auth.create({ account: this.input.text });
         // console.log(`message = ${JSON.stringify(message)}`);
-        var buffer = Login.encode(message).finish();
-        // console.log(`buffer = ${Array.prototype.toString.call(buffer)}`);
-        // let decoded = Login.decode(buffer);
-        // console.log(`decoded = ${JSON.stringify(decoded)}`);
-        // let message = Login.create({ Account: "qiu" });
-        // console.log(message)
-        // let buffer = new protobuf.Writer
-        // let d = Login.encode(message,buffer).finish();
-        // let data = Login.encode(message).finish()
+        console.log(message);
+        var buffer = auth.encode(message).finish();
+        protoMgr.sendMsg("cmsg.CReqAuth", buffer);
+        ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CRESPAUTH, this.respAuth, this);
+    };
+    LoginPannel.prototype.respAuth = function (e) {
+        ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CRESPAUTH, this.respAuth, this);
+        if (e.msg.errCode && e.msg.errCode != 0) {
+            console.log("登录错误");
+            return;
+        }
+        var protoMgr = ProtoBuffManager.getInstance();
+        var auth = protoMgr.root.lookupType("cmsg.CReqLogin");
+        var message = auth.create({ userID: e.msg.userID, sign: e.msg.sign });
+        // console.log(`message = ${JSON.stringify(message)}`);
+        console.log(message);
+        var buffer = auth.encode(message).finish();
         protoMgr.sendMsg("cmsg.CReqLogin", buffer);
-        ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_RESPLOGIN, this.respLogin, this);
-        ViewManager.getInstance().dispatchEvent(event);
+        ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CRESPLOGIN, this.respLogin, this);
     };
     LoginPannel.prototype.respLogin = function (e) {
-        console.log("respppppppppppppppppppppppp");
+        ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CRESPLOGIN, this.respLogin, this);
+        if (e.msg.ErrCode && e.msg.ErrCode != 0) {
+            console.log("登录错误");
+            return;
+        }
+        var event = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT);
+        event.eventType = LoginPannel.LOGIN;
+        if (!e.msg.user.nickname) {
+            event.eventType = UserInitPannel.Init;
+        }
+        var user = e.msg.user;
+        User.getInstance().updateUser(user.nickname, user.userID, user.fightGeneralID);
+        event.obj = this;
+        ViewManager.getInstance().dispatchEvent(event);
     };
     //结束界面，释放监听
     LoginPannel.prototype.end = function () {

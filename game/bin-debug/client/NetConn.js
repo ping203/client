@@ -45,19 +45,24 @@ var NetConn = (function () {
     };
     NetConn.prototype.onReceiveMessage = function (e) {
         var r = this.read();
-        var id = r.readShort();
+        var id = r.readUnsignedShort();
         var event = new ProtoEvent(ProtoEvent.RECEIVE_MESSAGE);
         event.id = id;
         var data = new egret.ByteArray;
-        r.readBytes(data, 2);
+        r.readBytes(data);
         event.msg = data;
+        // console.log(event.id, event.msg)
         ProtoProxy.getInstance().dispatchEvent(event);
     };
     NetConn.prototype.onSocketOpen = function (e) {
         console.log("连接成功");
+        var client = Client.getInstance();
+        client.stop();
     };
     NetConn.prototype.onSocketClose = function (e) {
         console.log("连接断开");
+        var client = Client.getInstance();
+        client.start();
     };
     NetConn.prototype.onSocketError = function () {
         console.log("数据读取错误");

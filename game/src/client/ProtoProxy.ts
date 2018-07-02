@@ -22,10 +22,10 @@ class ProtoProxy extends egret.EventDispatcher {
 	public receiveMessage(e: ProtoEvent) {
 		let protoMgr = ProtoBuffManager.getInstance()
 		let type = protoMgr.getType(e.id)
-		let messageType = protoMgr.root.lookupType("cmsg.CRespLogin")
+		let messageType = protoMgr.root.lookupType(type)
 
 		let msg = messageType.decode(e.msg.bytes)
-		console.log(msg)
+		console.log("receive=========",msg)
 
 		let serviceEvent = new ServiceEvent(type)
 		serviceEvent.msg = msg

@@ -13,8 +13,8 @@ class LoginPannel extends egret.Sprite {
 
     //开启监听
     public start() {
-        // this.startBtn.touchEnabled = true;
-        // this.startBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTab, this);
+        this.startBtn.touchEnabled = true;
+        this.startBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTab, this);
     }
     //初始化
     private init() {
@@ -25,60 +25,84 @@ class LoginPannel extends egret.Sprite {
         this.loginText.text = "账号:";
         this.loginText.textColor = 0x000000;
         this.addChild(this.loginText);
-        this.loginText.x = this.width*0.2
-        this.loginText.y = this.height*0.8
+        this.loginText.x = this.width * 0.2
+        this.loginText.y = this.height * 0.8
 
         this.input = new egret.TextField();
         this.input.text = '';
         this.input.text
         this.input.type = egret.TextFieldType.INPUT;
         this.input.textColor = 0x000000;
-        this.input.background =  true
+        this.input.background = true
         this.input.backgroundColor = 0xFFFFFF
-        this.input.width = this.width*0.5
+        this.input.width = this.width * 0.5
         this.addChild(this.input);
-        this.input.x = this.width*0.2 + this.loginText.width
+        this.input.x = this.width * 0.2 + this.loginText.width
         this.input.y = this.loginText.y
 
         this.startBtn = new eui.Button();
         this.startBtn.label = '登录';
-        this.startBtn.x = this.width*0.5 - this.startBtn.width/2
-        this.startBtn.y = this.loginText.y+this.width*0.1
+        this.startBtn.x = this.width * 0.5 - this.startBtn.width / 2
+        this.startBtn.y = this.loginText.y + this.width * 0.1
         this.addChild(this.startBtn);
     }
 
     private onTouchTab(e: egret.TouchEvent) {
-        var event: ChangeSceneEvent = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT)
-        event.eventType = LoginPannel.LOGIN
-        event.obj = this
-
         let protoMgr = ProtoBuffManager.getInstance()
-        const Login = protoMgr.root.lookupType("cmsg.CReqLogin");
+        const auth = protoMgr.root.lookupType("cmsg.CReqAuth");
 
-        let message = Login.create({ userID: 232222 });
+        let message = auth.create({ account: this.input.text });
         // console.log(`message = ${JSON.stringify(message)}`);
 
-        let buffer = Login.encode(message).finish();
-        // console.log(`buffer = ${Array.prototype.toString.call(buffer)}`);
+        console.log(message)
+        let buffer = auth.encode(message).finish();
 
-        // let decoded = Login.decode(buffer);
-        // console.log(`decoded = ${JSON.stringify(decoded)}`);
+        protoMgr.sendMsg("cmsg.CReqAuth", buffer)
+        ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CRESPAUTH, this.respAuth, this)
 
+    }
 
-        // let message = Login.create({ Account: "qiu" });
-        // console.log(message)
-        // let buffer = new protobuf.Writer
-        // let d = Login.encode(message,buffer).finish();
+    public respAuth(e: ServiceEvent) {
+        ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CRESPAUTH, this.respAuth, this)
 
-        // let data = Login.encode(message).finish()
+        if (e.msg.errCode && e.msg.errCode != 0) {
+            console.log("登录错误")
+            return
+        }
+
+        let protoMgr = ProtoBuffManager.getInstance()
+        const auth = protoMgr.root.lookupType("cmsg.CReqLogin");
+
+        let message = auth.create({ userID: e.msg.userID, sign: e.msg.sign });
+        // console.log(`message = ${JSON.stringify(message)}`);
+
+        console.log(message)
+        let buffer = auth.encode(message).finish();
+
         protoMgr.sendMsg("cmsg.CReqLogin", buffer)
-        ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_RESPLOGIN, this.respLogin, this)
-
-        ViewManager.getInstance().dispatchEvent(event)
+        ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CRESPLOGIN, this.respLogin, this)
+        
     }
 
     public respLogin(e: ServiceEvent) {
-        console.log("respppppppppppppppppppppppp")
+        ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CRESPLOGIN, this.respLogin, this)
+
+        if (e.msg.ErrCode && e.msg.ErrCode != 0) {
+            console.log("登录错误")
+            return
+        }
+
+        var event: ChangeSceneEvent = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT)
+        event.eventType = LoginPannel.LOGIN
+        if (!e.msg.user.nickname){
+             event.eventType = UserInitPannel.Init
+        }
+
+        let user = e.msg.user
+        User.getInstance().updateUser(user.nickname,user.userID, user.fightGeneralID)
+
+        event.obj = this
+        ViewManager.getInstance().dispatchEvent(event)
     }
     //结束界面，释放监听
     public end() {

@@ -37,6 +37,7 @@ var ViewManager = (function (_super) {
     ViewManager.prototype.init = function () {
         this.loginPannel = new LoginPannel();
         this.mainPannel = new MainPannel();
+        this.userInitPannel = new UserInitPannel();
         this.addChild(this.loginPannel);
         this.loginPannel.start();
         this.addEventListener(ChangeSceneEvent.CHANGE_SCENE_EVENT, this.onChangeScene, this);
@@ -57,6 +58,10 @@ var ViewManager = (function (_super) {
             case LoginPannel.LOGIN:
                 this.mainPannel.start();
                 this.addChild(this.mainPannel);
+                break;
+            case UserInitPannel.Init:
+                this.userInitPannel.start();
+                this.addChild(this.userInitPannel);
                 break;
             default:
                 this.loginPannel.start();

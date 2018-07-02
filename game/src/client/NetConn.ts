@@ -53,21 +53,27 @@ class NetConn {
 
 	public onReceiveMessage(e: egret.ProgressEvent) {
 		let r = this.read()
-		let id = r.readShort()
+		let id = r.readUnsignedShort()
 		let event = new ProtoEvent(ProtoEvent.RECEIVE_MESSAGE)
 		event.id = id
 		let data = new egret.ByteArray
-		r.readBytes(data,2)
+		r.readBytes(data)
 		event.msg = data
 
+		// console.log(event.id, event.msg)
 		ProtoProxy.getInstance().dispatchEvent(event)
 	}
 	public onSocketOpen(e: egret.Event) {
 		console.log("连接成功")
+		let client = Client.getInstance()
+		client.stop()
 	}
 
 	public onSocketClose(e: egret.IOErrorEvent) {
 		console.log("连接断开")
+		let client = Client.getInstance()
+
+		client.start()
 	}
 
 	public onSocketError() {

@@ -115,7 +115,6 @@ var Main = (function (_super) {
                         return [4 /*yield*/, platform.getUserInfo()];
                     case 4:
                         userInfo = _a.sent();
-                        console.log(userInfo);
                         return [2 /*return*/];
                 }
             });
@@ -166,11 +165,14 @@ var Main = (function (_super) {
      * Create scene interface
      */
     Main.prototype.createGameScene = function () {
-        var jj = Client.getInstance();
-        jj.connect("127.0.0.1", 3564);
-        var k = ProtoBuffManager.getInstance();
+        this.connect();
         this.viewManager = ViewManager.getInstance();
         this.addChild(this.viewManager);
+    };
+    Main.prototype.connect = function () {
+        var client = Client.getInstance();
+        client.connect("127.0.0.1", 3564);
+        ProtoBuffManager.getInstance();
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

@@ -27,9 +27,9 @@ var ProtoProxy = (function (_super) {
     ProtoProxy.prototype.receiveMessage = function (e) {
         var protoMgr = ProtoBuffManager.getInstance();
         var type = protoMgr.getType(e.id);
-        var messageType = protoMgr.root.lookupType("cmsg.CRespLogin");
+        var messageType = protoMgr.root.lookupType(type);
         var msg = messageType.decode(e.msg.bytes);
-        console.log(msg);
+        console.log("receive=========", msg);
         var serviceEvent = new ServiceEvent(type);
         serviceEvent.msg = msg;
         this.dispatchEvent(serviceEvent);

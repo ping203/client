@@ -21,13 +21,15 @@ class ViewManager extends egret.Sprite {
 
     private static instance: ViewManager;
     private loginPannel: LoginPannel; // 开始界面
-    private mainPannel: MainPannel; //游戏结束界面
+    private mainPannel: MainPannel; // 主界面
+    private userInitPannel: UserInitPannel; //创角色界面
     /**
      * 这里初始化
      */
     private init() {
         this.loginPannel = new LoginPannel();
         this.mainPannel = new MainPannel();
+        this.userInitPannel = new UserInitPannel();
         this.addChild(this.loginPannel);
         this.loginPannel.start();
         this.addEventListener(ChangeSceneEvent.CHANGE_SCENE_EVENT, this.onChangeScene, this);
@@ -53,6 +55,10 @@ class ViewManager extends egret.Sprite {
             case LoginPannel.LOGIN:
                 this.mainPannel.start();
                 this.addChild(this.mainPannel);
+                break;
+             case UserInitPannel.Init:
+                this.userInitPannel.start();
+                this.addChild(this.userInitPannel);
                 break;
             default:
                 this.loginPannel.start();

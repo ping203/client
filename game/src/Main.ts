@@ -64,7 +64,6 @@ class Main extends eui.UILayer {
         this.startAnimation(result);
         await platform.login();
         const userInfo = await platform.getUserInfo();
-        console.log(userInfo);
 
     }
 
@@ -101,12 +100,17 @@ class Main extends eui.UILayer {
      * Create scene interface
      */
     protected createGameScene(): void {
-        var jj = Client.getInstance()
-        jj.connect("127.0.0.1",3564)
+        this.connect()
 
-        var k = ProtoBuffManager.getInstance()
         this.viewManager = ViewManager.getInstance()
         this.addChild(this.viewManager)
+    }
+
+    protected connect(): void {
+        var client = Client.getInstance()
+        client.connect("127.0.0.1", 3564)
+
+        ProtoBuffManager.getInstance()
     }
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

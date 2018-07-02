@@ -3,10 +3,24 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
 };
 var Client = (function () {
     function Client() {
+        this.timeNumbers = 5; //重连时间
+        this.count = 0;
         this.init();
     }
+    Client.prototype.start = function () {
+        this.count = 0;
+        this.timer.start();
+        this.timer.addEventListener(egret.TimerEvent.TIMER, this.onTimer, this);
+    };
+    Client.prototype.stop = function () {
+        if (this.timer.hasEventListener(egret.TimerEvent.TIMER))
+            this.timer.removeEventListener(egret.TimerEvent.TIMER, this.onTimer, this);
+        this.timer.stop();
+        this.timer.reset();
+    };
     Client.prototype.init = function () {
         this.conn = NetConn.getInstance();
+        this.timer = new egret.Timer(1000);
     };
     Client.getInstance = function () {
         if (Client.instance == null) {
@@ -19,7 +33,15 @@ var Client = (function () {
         if (this.conn.isConnect()) {
             return Error("已经连接");
         }
+        this.address = address;
+        this.port = port;
         this.conn.connect(address, port);
+    };
+    Client.prototype.reconnect = function () {
+        if (this.conn.isConnect()) {
+            return Error("已经连接");
+        }
+        this.conn.connect(this.address, this.port);
     };
     // 关闭连接
     Client.prototype.close = function () {
@@ -34,6 +56,12 @@ var Client = (function () {
         byte.writeBytes(data);
         // console.log(byte)
         this.conn.write(byte);
+    };
+    Client.prototype.onTimer = function (e) {
+        this.count++;
+        if (this.count % this.timeNumbers == 0) {
+            this.reconnect();
+        }
     };
     return Client;
 }());
