@@ -38,11 +38,11 @@ var LoginPannel = (function (_super) {
         var protoMgr = ProtoBuffManager.getInstance();
         var Login = protoMgr.root.lookupType("cmsg.CReqLogin");
         var message = Login.create({ userID: 232222 });
-        console.log("message = " + JSON.stringify(message));
+        // console.log(`message = ${JSON.stringify(message)}`);
         var buffer = Login.encode(message).finish();
-        console.log("buffer = " + Array.prototype.toString.call(buffer));
-        var decoded = Login.decode(buffer);
-        console.log("decoded = " + JSON.stringify(decoded));
+        // console.log(`buffer = ${Array.prototype.toString.call(buffer)}`);
+        // let decoded = Login.decode(buffer);
+        // console.log(`decoded = ${JSON.stringify(decoded)}`);
         // let message = Login.create({ Account: "qiu" });
         // console.log(message)
         // let buffer = new protobuf.Writer

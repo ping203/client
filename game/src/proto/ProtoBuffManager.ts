@@ -1,7 +1,7 @@
 class ProtoBuffManager {
 	public root: protobuf.Root
-	private id2Type: Map<number,string>
-	private type2id: Map<string,number>
+	private id2Type: Map<number, string>
+	private type2id: Map<string, number>
 	public constructor() {
 		this.id2Type = new Map
 		this.type2id = new Map
@@ -39,17 +39,17 @@ class ProtoBuffManager {
 	}
 
 
-	private initMsgID(){
+	private initMsgID() {
 		let head = "cmsg"
 		let arr = this.root.nested["cmsg"]["nestedArray"]
 		let name = "name"
 		for (var i = 0; i < arr.length; i++) {
 			let msg = arr[i][name]
-			let id = this.stringHash(head,msg)
-			let str = head+"."+msg
+			let id = this.stringHash(head, msg)
+			let str = head + "." + msg
 			// console.log(id, str)
-			this.id2Type.set(id,str)
-			this.type2id.set(str,id)
+			this.id2Type.set(id, str)
+			this.type2id.set(str, id)
 		}
 	}
 
@@ -68,15 +68,19 @@ class ProtoBuffManager {
 		return num & 65535
 	}
 
-	private getID(type:string): number {
+	public getID(type: string): number {
 		// console.log(this.type2id.get(type))
 		return this.type2id.get(type)
 	}
 
-	public sendMsg(type:string, msg:Uint8Array) { 
+	public getType(id: number): string {
+		// console.log(this.type2id.get(type))
+		return this.id2Type.get(id)
+	}
+	public sendMsg(type: string, msg: Uint8Array) {
 		let id = this.getID(type)
 		let byte = new egret.ByteArray(msg)
-		Client.getInstance().write(id,byte)
+		Client.getInstance().write(id, byte)
 	}
 
 

@@ -35,13 +35,13 @@ class LoginPannel extends egret.Sprite {
         const Login = protoMgr.root.lookupType("cmsg.CReqLogin");
 
         let message = Login.create({ userID: 232222 });
-        console.log(`message = ${JSON.stringify(message)}`);
+        // console.log(`message = ${JSON.stringify(message)}`);
 
         let buffer = Login.encode(message).finish();
-        console.log(`buffer = ${Array.prototype.toString.call(buffer)}`);
+        // console.log(`buffer = ${Array.prototype.toString.call(buffer)}`);
 
-        let decoded = Login.decode(buffer);
-        console.log(`decoded = ${JSON.stringify(decoded)}`);
+        // let decoded = Login.decode(buffer);
+        // console.log(`decoded = ${JSON.stringify(decoded)}`);
 
 
         // let message = Login.create({ Account: "qiu" });

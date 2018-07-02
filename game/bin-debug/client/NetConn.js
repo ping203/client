@@ -34,9 +34,9 @@ var NetConn = (function () {
     NetConn.prototype.close = function () {
         this.webSocket.close();
     };
-    NetConn.prototype.read = function (len) {
+    NetConn.prototype.read = function () {
         var byte = new egret.ByteArray();
-        this.webSocket.readBytes(byte, 0, len);
+        this.webSocket.readBytes(byte);
         return byte;
     };
     NetConn.prototype.write = function (data) {
@@ -44,7 +44,14 @@ var NetConn = (function () {
         this.webSocket.flush();
     };
     NetConn.prototype.onReceiveMessage = function (e) {
-        console.log("接受到数据");
+        var r = this.read();
+        var id = r.readShort();
+        var event = new ProtoEvent(ProtoEvent.RECEIVE_MESSAGE);
+        event.id = id;
+        var data = new egret.ByteArray;
+        r.readBytes(data, 2);
+        event.msg = data;
+        ProtoProxy.getInstance().dispatchEvent(event);
     };
     NetConn.prototype.onSocketOpen = function (e) {
         console.log("连接成功");

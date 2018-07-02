@@ -28,15 +28,11 @@ var Client = (function () {
         }
         this.conn.close();
     };
-    Client.prototype.read = function () {
-        var len = this.conn.read(2);
-        return this.conn.read(Number(len));
-    };
     Client.prototype.write = function (id, data) {
         var byte = new egret.ByteArray();
         byte.writeShort(id);
         byte.writeBytes(data);
-        console.log(byte);
+        // console.log(byte)
         this.conn.write(byte);
     };
     return Client;

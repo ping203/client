@@ -40,9 +40,9 @@ class NetConn {
 		this.webSocket.close()
 	}
 
-	public read(len: number): egret.ByteArray {
+	public read(): egret.ByteArray {
 		var byte: egret.ByteArray = new egret.ByteArray();
-		this.webSocket.readBytes(byte, 0, len);
+		this.webSocket.readBytes(byte);
 		return byte
 	}
 
@@ -52,7 +52,15 @@ class NetConn {
 	}
 
 	public onReceiveMessage(e: egret.ProgressEvent) {
-		console.log("接受到数据")
+		let r = this.read()
+		let id = r.readShort()
+		let event = new ProtoEvent(ProtoEvent.RECEIVE_MESSAGE)
+		event.id = id
+		let data = new egret.ByteArray
+		r.readBytes(data,2)
+		event.msg = data
+
+		ProtoProxy.getInstance().dispatchEvent(event)
 	}
 	public onSocketOpen(e: egret.Event) {
 		console.log("连接成功")

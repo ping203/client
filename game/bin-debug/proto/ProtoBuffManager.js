@@ -60,6 +60,10 @@ var ProtoBuffManager = (function () {
         // console.log(this.type2id.get(type))
         return this.type2id.get(type);
     };
+    ProtoBuffManager.prototype.getType = function (id) {
+        // console.log(this.type2id.get(type))
+        return this.id2Type.get(id);
+    };
     ProtoBuffManager.prototype.sendMsg = function (type, msg) {
         var id = this.getID(type);
         var byte = new egret.ByteArray(msg);

@@ -35,16 +35,12 @@ class Client {
 		this.conn.close()
 	}
 
-	public read(): egret.ByteArray {
-		let len = this.conn.read(2)
-		return this.conn.read(Number(len))
-	}
 
 	public write(id:number, data:egret.ByteArray){
 		var byte: egret.ByteArray = new egret.ByteArray();
 		byte.writeShort(id)
 		byte.writeBytes(data)
-		console.log(byte)
+		// console.log(byte)
 
 		this.conn.write(byte)
 	}
