@@ -52,6 +52,8 @@ class Client {
 		if (this.conn.isConnect()) {
 			return Error("已经连接")
 		}
+		let client = Client.getInstance()
+		client.stop()
 		this.conn.connect(this.address, this.port)
 	}
 

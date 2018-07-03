@@ -4,8 +4,9 @@ class FightPannel extends egret.Sprite {
 
 	public static FIGHT: string = "fight";
 	private startBtn: eui.Button;
-	private loginText: egret.TextField;//
+	private fightText: egret.TextField;//
 	private input: egret.TextField;//
+	private gameStage: egret.Sprite;
 	public constructor() {
 		super();
 		this.init();
@@ -20,10 +21,10 @@ class FightPannel extends egret.Sprite {
 		this.bg = new egret.Bitmap(RES.getRes('login_png'));
 		this.addChild(this.bg);
 
-		this.loginText = new egret.TextField();
-		this.loginText.text = "战斗界面";
-		this.loginText.textColor = 0x000000;
-		this.addChild(this.loginText);
+		this.fightText = new egret.TextField();
+		this.fightText.text = "战斗界面";
+		this.fightText.textColor = 0x000000;
+		this.addChild(this.fightText);
 
 		// this.input = new egret.TextField();
 		// this.input.text = '';
@@ -36,28 +37,17 @@ class FightPannel extends egret.Sprite {
 		this.startBtn = new eui.Button();
 		this.startBtn.label = '使用技能';
 		this.addChild(this.startBtn);
+
+		// 初始化武将
 	}
 
-	private onTouchTab(e: egret.TouchEvent) {
-		// let protoMgr = ProtoBuffManager.getInstance()
-		// const auth = protoMgr.root.lookupType("cmsg.CReqAuth");
 
-		// let message = auth.create({ account: this.input.text });
-		// // console.log(`message = ${JSON.stringify(message)}`);
-
-		// console.log(message)
-		// let buffer = auth.encode(message).finish();
-
-		// protoMgr.sendMsg("cmsg.CReqAuth", buffer)
-		// ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CRESPAUTH, this.respAuth, this)
-
-	}
 
 	private reqUseSkill(skillID: number) {
 		let protoMgr = ProtoBuffManager.getInstance()
 		const msg = protoMgr.root.lookupType("cmsg.CReqUseSkill");
 
-		let message = msg.create({ account: this.input.text });
+		let message = msg.create({ skillID: this.input.text });
 		// console.log(`message = ${JSON.stringify(message)}`);
 
 		console.log(message)
@@ -77,13 +67,31 @@ class FightPannel extends egret.Sprite {
 			alert(e.msg.errMsg)
 			return
 		}
+	}
+
+	private notifyGameStage(e: ServiceEvent) {
 
 	}
 
+	private notifyUseSkill(e: ServiceEvent) {
+
+	}
+
+	private notifyGeneralStatus(e: ServiceEvent) {
+
+	}
+
+	private notifyGameResult(e: ServiceEvent) {
+
+	}
+
+	private gameEnd(e: ServiceEvent) {
+
+	}
 	//结束界面，释放监听
 	public end() {
 		this.startBtn.touchEnabled = false;
 		if (this.startBtn.hasEventListener(egret.TouchEvent.TOUCH_TAP))
-			this.startBtn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTab, this);
+			this.startBtn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.reqUseSkill, this);
 	}
 }

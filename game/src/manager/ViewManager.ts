@@ -24,7 +24,10 @@ class ViewManager extends egret.Sprite {
     private bg: egret.Bitmap;// 背景
     private loginPannel: LoginPannel; // 开始界面
     private mainPannel: MainPannel; // 主界面
-    // private userInitPannel: UserInitPannel; //创角色界面
+    private userInitPannel: UserInitPannel; //创角色界面
+    private fightPannel: FightPannel; //战斗界面
+
+    private user: User; // 用户信息
     /**
      * 这里初始化
      */
@@ -32,14 +35,16 @@ class ViewManager extends egret.Sprite {
         this.bg = new egret.Bitmap(RES.getRes('game_bg_png'));
         this.addChild(this.bg);
 
-        console.log(this.bg.width, this.bg.height)
-        console.log(this.width, this.height)
+        // console.log(this.width, this.height)
 
         this.loginPannel = new LoginPannel();
         this.mainPannel = new MainPannel();
-        // this.userInitPannel = new UserInitPannel();
+        this.userInitPannel = new UserInitPannel();
+        this.fightPannel = new FightPannel();
         this.addChild(this.loginPannel);
         this.loginPannel.start();
+        
+        this.user = User.getInstance()
         this.addEventListener(ChangeSceneEvent.CHANGE_SCENE_EVENT, this.onChangeScene, this);
 
     }
@@ -64,13 +69,13 @@ class ViewManager extends egret.Sprite {
                 this.mainPannel.start();
                 this.addChild(this.mainPannel);
                 break;
-            //  case UserInitPannel.Init:
-            //     this.userInitPannel.start();
-            //     this.addChild(this.userInitPannel);
-            //     break;
+            case UserInitPannel.Init:
+                this.userInitPannel.start();
+                this.addChild(this.userInitPannel);
+                break;
             case FightPannel.FIGHT:
-                this.mainPannel.start();
-                this.addChild(this.mainPannel);
+                this.fightPannel.start();
+                this.addChild(this.fightPannel);
                 break;
             default:
                 this.loginPannel.start();

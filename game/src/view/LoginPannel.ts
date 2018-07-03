@@ -12,25 +12,23 @@ class LoginPannel extends egret.Sprite {
     }
 
     //开启监听
-    private start() {
+    public start() {
 
     }
-    private offset() {
-        this.width = this.parent.width
-        this.height = this.parent.height
+    public offset() {
 
         console.log(this.width, this.height)
 
-        this.loginText.x = this.width * 0.2
         this.input.width = this.width * 0.3
+        this.loginText.x = this.width * 0.5 - (this.input.width + this.loginText.width) / 2
         this.loginText.y = this.height * 0.8
 
-        this.input.x = this.width * 0.5 - (this.input.width + this.loginText.width) / 2
+        this.input.x = this.loginText.x+ this.loginText.width
         this.input.y = this.loginText.y
 
         this.startBtn.width = this.width * 0.05
         this.startBtn.x = this.width * 0.5 - this.startBtn.width / 2
-        console.log(this.startBtn.x, this.width, this.startBtn.width, this.loginText.width)
+        // console.log(this.startBtn.x, this.width, this.startBtn.width, this.loginText.width)
         this.startBtn.y = this.loginText.y + this.height * 0.1
 
         this.startBtn.touchEnabled = true;
@@ -59,6 +57,7 @@ class LoginPannel extends egret.Sprite {
         this.addChild(this.startBtn);
 
         this.offset()
+
     }
 
     private reqAuth(e: egret.TouchEvent) {
@@ -109,19 +108,23 @@ class LoginPannel extends egret.Sprite {
         var event: ChangeSceneEvent = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT)
         event.eventType = LoginPannel.LOGIN
         if (!e.msg.user.nickname) {
-            //  event.eventType = UserInitPannel.Init
+            event.eventType = UserInitPannel.Init
         }
 
         let user = e.msg.user
-        // User.getInstance().updateUser(user.nickname,user.userID, user.fightGeneralID)
+        User.getInstance().updateUser(user.nickname, user.userID, user.fightGeneralID)
+        User.getInstance().updateGeneral(e.msg.generals)
 
         event.obj = this
         ViewManager.getInstance().dispatchEvent(event)
     }
+
+
+
     //结束界面，释放监听
     public end() {
         this.startBtn.touchEnabled = false;
         if (this.startBtn.hasEventListener(egret.TouchEvent.TOUCH_TAP))
-            this.startBtn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTab, this);
+            this.startBtn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.reqAuth, this);
     }
 }
