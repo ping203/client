@@ -12,43 +12,50 @@ var MainPannel = (function (_super) {
     __extends(MainPannel, _super);
     function MainPannel() {
         var _this = _super.call(this) || this;
-        _this.timeNumbers = 20; //计时的秒数
         _this.init();
         return _this;
     }
-    //开启监听
     MainPannel.prototype.start = function () {
-        this.timeNumbers = 20;
-        this.timer.start();
-        this.timer.addEventListener(egret.TimerEvent.TIMER, this.onTimer, this);
-        this.timer.addEventListener(egret.TimerEvent.TIMER_COMPLETE, this.onTimerComplete, this);
+        this.fightButton.touchEnabled = true;
+        this.fightButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reqFight, this);
     };
     //初始化
     MainPannel.prototype.init = function () {
-        // this.bg = new egret.Bitmap(RES.getRes('gamePlayingBgImage'));
-        // this.addChild(this.bg);
-        this.timeTitle = new egret.TextField();
-        this.timeTitle.text = "剩余时间：" + this.timeNumbers + " 秒";
-        this.timeTitle.x = (480 - this.timeTitle.width) * 0.5;
-        this.timeTitle.y = 400;
-        this.addChild(this.timeTitle);
-        this.timer = new egret.Timer(1000, this.timeNumbers);
+        this.bg = new egret.Bitmap(RES.getRes('game_bg.pnt'));
+        this.addChild(this.bg);
+        this.fightButton = new eui.Button();
+        this.fightButton.label = '战斗';
+        this.addChild(this.fightButton);
     };
-    MainPannel.prototype.onTimer = function (e) {
-        this.timeNumbers -= 1;
-        this.timeTitle.text = "剩余时间：" + this.timeNumbers + " 秒";
+    MainPannel.prototype.reqFight = function (e) {
+        var protoMgr = ProtoBuffManager.getInstance();
+        var msg = protoMgr.root.lookupType("cmsg.CReqStageFight");
+        var message = msg.create({ stageID: 0 });
+        // console.log(`message = ${JSON.stringify(message)}`);
+        console.log(message);
+        var buffer = msg.encode(message).finish();
+        protoMgr.sendMsg("cmsg.CReqStageFight", buffer);
+        ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CRESPSTAGEFIGHT, this.respStageFight, this);
+        ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CNOTIFYGAMESTART, this.notifyGameStart, this);
     };
-    MainPannel.prototype.onTimerComplete = function (e) {
-        this.dispatchEventWith(MainPannel.CHANGEPANEL);
+    MainPannel.prototype.respStageFight = function (e) {
+        ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CRESPAUTH, this.respStageFight, this);
+        if (e.msg.errCode && e.msg.errCode != 0) {
+            alert(e.msg.errMsg);
+            return;
+        }
+    };
+    MainPannel.prototype.notifyGameStart = function (e) {
+        ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CNOTIFYGAMESTART, this.notifyGameStart, this);
+        var event = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT);
+        event.eventType = FightPannel.FIGHT;
+        event.data = e.msg;
+        var user = e.msg.user;
+        event.obj = this;
+        ViewManager.getInstance().dispatchEvent(event);
     };
     //结束界面，释放监听
     MainPannel.prototype.end = function () {
-        if (this.timer.hasEventListener(egret.TimerEvent.TIMER))
-            this.timer.removeEventListener(egret.TimerEvent.TIMER, this.onTimer, this);
-        if (this.timer.hasEventListener(egret.TimerEvent.TIMER_COMPLETE))
-            this.timer.removeEventListener(egret.TimerEvent.TIMER_COMPLETE, this.onTimerComplete, this);
-        this.timer.stop();
-        this.timer.reset();
     };
     MainPannel.CHANGEPANEL = "mainPannel";
     return MainPannel;

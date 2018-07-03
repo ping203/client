@@ -18,34 +18,38 @@ var LoginPannel = (function (_super) {
     }
     //开启监听
     LoginPannel.prototype.start = function () {
+        this.width = this.parent.width;
+        this.height = this.parent.height;
+        console.log(this.width, this.height);
+        this.loginText.x = this.width * 0.2;
+        this.input.width = this.width * 0.3;
+        this.loginText.y = this.height * 0.8;
+        this.input.x = this.width * 0.5 - (this.input.width + this.loginText.width) / 2;
+        this.input.y = this.loginText.y;
+        this.startBtn.width = this.width * 0.05;
+        this.startBtn.x = this.width * 0.5 - this.startBtn.width / 2;
+        console.log(this.startBtn.x, this.width, this.startBtn.width, this.loginText.width);
+        this.startBtn.y = this.loginText.y + this.height * 0.1;
         this.startBtn.touchEnabled = true;
         this.startBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTouchTab, this);
     };
     //初始化
     LoginPannel.prototype.init = function () {
-        this.bg = new egret.Bitmap(RES.getRes('bg_jpg'));
+        this.bg = new egret.Bitmap(RES.getRes('login_png'));
         this.addChild(this.bg);
         this.loginText = new egret.TextField();
         this.loginText.text = "账号:";
         this.loginText.textColor = 0x000000;
         this.addChild(this.loginText);
-        this.loginText.x = this.width * 0.2;
-        this.loginText.y = this.height * 0.8;
         this.input = new egret.TextField();
         this.input.text = '';
-        this.input.text;
         this.input.type = egret.TextFieldType.INPUT;
-        this.input.textColor = 0x000000;
+        this.input.textColor = 0xFFFFFF;
         this.input.background = true;
-        this.input.backgroundColor = 0xFFFFFF;
-        this.input.width = this.width * 0.5;
+        this.input.backgroundColor = 0x000000;
         this.addChild(this.input);
-        this.input.x = this.width * 0.2 + this.loginText.width;
-        this.input.y = this.loginText.y;
         this.startBtn = new eui.Button();
         this.startBtn.label = '登录';
-        this.startBtn.x = this.width * 0.5 - this.startBtn.width / 2;
-        this.startBtn.y = this.loginText.y + this.width * 0.1;
         this.addChild(this.startBtn);
     };
     LoginPannel.prototype.onTouchTab = function (e) {
@@ -82,10 +86,10 @@ var LoginPannel = (function (_super) {
         var event = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT);
         event.eventType = LoginPannel.LOGIN;
         if (!e.msg.user.nickname) {
-            event.eventType = UserInitPannel.Init;
+            //  event.eventType = UserInitPannel.Init
         }
         var user = e.msg.user;
-        User.getInstance().updateUser(user.nickname, user.userID, user.fightGeneralID);
+        // User.getInstance().updateUser(user.nickname,user.userID, user.fightGeneralID)
         event.obj = this;
         ViewManager.getInstance().dispatchEvent(event);
     };
