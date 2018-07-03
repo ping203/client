@@ -41,13 +41,13 @@ class FightPannel extends egret.Sprite {
 		// 初始化武将
 	}
 
-
+d
 
 	private reqUseSkill(skillID: number) {
 		let protoMgr = ProtoBuffManager.getInstance()
 		const msg = protoMgr.root.lookupType("cmsg.CReqUseSkill");
 
-		let message = msg.create({ skillID: this.input.text });
+		let message = msg.create({ skillID: 1 });
 		// console.log(`message = ${JSON.stringify(message)}`);
 
 		console.log(message)

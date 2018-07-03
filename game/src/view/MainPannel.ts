@@ -17,6 +17,7 @@ class MainPannel extends egret.Sprite {
 
         this.fightButton.touchEnabled = true;
         this.fightButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reqFight, this);
+        this.addChild(this.fightButton);
     }
 
     //初始化
@@ -26,8 +27,6 @@ class MainPannel extends egret.Sprite {
 
         this.fightButton = new eui.Button();
         this.fightButton.label = '战斗';
-        this.addChild(this.fightButton);
-
     }
 
     private initUser() {
@@ -55,7 +54,7 @@ class MainPannel extends egret.Sprite {
         nickName.x = 100
         level.text = "1"
         level.size = 20
-        level.y = nickName.y+75
+        level.y = nickName.y + 75
         level.x = 100
         level.textColor = 0xff0000;
 
@@ -85,7 +84,7 @@ class MainPannel extends egret.Sprite {
         nickName.x = 100
         level.text = "1"
         level.size = 20
-        level.y = nickName.y+75
+        level.y = nickName.y + 75
         level.x = 100
         level.textColor = 0xff0000;
 
