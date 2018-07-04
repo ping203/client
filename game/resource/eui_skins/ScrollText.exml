@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ScrollTextSkin" width="400" height="300" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="164650e3403" ></w:Config>
+	<e:Rect width="178" height="40" x="293" y="138" anchorOffsetX="178" anchorOffsetY="38" fillColor="0xffffff"/>
+	<e:Scroller width="177" height="39" x="117" y="100" anchorOffsetY="0" anchorOffsetX="0">
+	</e:Scroller>
+</e:Skin>

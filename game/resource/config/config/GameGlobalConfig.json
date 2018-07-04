@@ -1,0 +1,8 @@
+{
+	"Tool": "github.com/davyxu/tabtoy",
+	"Version": "2.8.9",
+	"DoNotUseThis":[
+	], 
+	"Globalconf":[
+		{ "UserInitGeneral":[ 1, 2, 3 ] }
+	]}
