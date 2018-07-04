@@ -14,12 +14,18 @@
 		"eui.VSlider": "resource/eui_skins/VSliderSkin.exml",
 		"eui.ItemRenderer": "resource/eui_skins/ItemRendererSkin.exml",
 		"ScrollTextSkin": "resource/eui_skins/ScrollTextSkin.exml",
-		"ScrollText": "resource/eui_skins/ScrollText.exml"
+		"ScrollText": "resource/eui_skins/ScrollText.exml",
+		"UserWindow": "resource/eui_skins/UserWindow.exml",
+		"UserInfo": "resource/eui_skins/UserInfo.exml",
+		"ds": "resource/eui_skins/ds.exml",
+		"GeneralInfo": "resource/eui_skins/GeneralInfo.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
 		"resource/eui_skins/ButtonSkin.exml",
 		"resource/eui_skins/CheckBoxSkin.exml",
+		"resource/eui_skins/ds.exml",
+		"resource/eui_skins/GeneralInfo.exml",
 		"resource/eui_skins/HScrollBarSkin.exml",
 		"resource/eui_skins/HSliderSkin.exml",
 		"resource/eui_skins/ItemRendererSkin.exml",
@@ -30,6 +36,7 @@
 		"resource/eui_skins/ScrollText.exml",
 		"resource/eui_skins/TextInputSkin.exml",
 		"resource/eui_skins/ToggleSwitchSkin.exml",
+		"resource/eui_skins/UserInfo.exml",
 		"resource/eui_skins/VScrollBarSkin.exml",
 		"resource/eui_skins/VSliderSkin.exml"
 	],

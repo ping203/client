@@ -6,6 +6,10 @@ declare module skins{
 	class CheckBoxSkin extends eui.Skin{
 	}
 }
+declare class dsSkin extends eui.Skin{
+}
+declare class GeneralInfoSkin extends eui.Skin{
+}
 declare module skins{
 	class HScrollBarSkin extends eui.Skin{
 	}
@@ -43,6 +47,8 @@ declare module skins{
 declare module skins{
 	class ToggleSwitchSkin extends eui.Skin{
 	}
+}
+declare class UserInfoSkin extends eui.Skin{
 }
 declare module skins{
 	class VScrollBarSkin extends eui.Skin{

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="ScrollTextSkin" width="400" height="300" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
-	<w:Config id="164650e3403" ></w:Config>
-	<e:Rect width="178" height="40" x="293" y="138" anchorOffsetX="178" anchorOffsetY="38" fillColor="0xffffff"/>
-	<e:Scroller width="177" height="39" x="117" y="100" anchorOffsetY="0" anchorOffsetX="0">
+<e:Skin class="ScrollTextSkin" width="280" height="500" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="16465cb223c" ></w:Config>
+	<e:Rect width="280" height="500" x="-1" anchorOffsetX="0" anchorOffsetY="0" strokeColor="0x000000" fillColor="0xffffff"/>
+	<e:Scroller id="textScroll" width="279" height="499" anchorOffsetX="0" anchorOffsetY="0">
+		<e:Group>
+			<e:Label id="fightText" text="" x="-1" y="0" anchorOffsetX="0" width="280" anchorOffsetY="0" scaleX="1" scaleY="1" textColor="0x000000" size="24"/>
+		</e:Group>
 	</e:Scroller>
 </e:Skin>

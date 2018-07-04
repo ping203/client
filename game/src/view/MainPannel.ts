@@ -3,8 +3,8 @@ class MainPannel extends egret.Sprite {
     private bg: egret.Bitmap;// 背景
     private fightButton: eui.Button;
     private timeTitle: egret.TextField;//这里我们使用textfield当做开始按钮
-    private userInfo: egret.Sprite;
-    private generalInfo: egret.Sprite;
+    private userInfo: UserInfo;
+    private generalInfo: GeneralInfo;
     public constructor() {
         super();
         this.init();
@@ -32,66 +32,31 @@ class MainPannel extends egret.Sprite {
     }
 
     private initUser() {
-        this.userInfo = new egret.Sprite()
-        this.x = 0
+        this.userInfo = new UserInfo()
 
-        let bg = new egret.Bitmap(RES.getRes('user_png'));
-        this.userInfo.addChild(bg);
-
-        this.initUserData()
+        this.updateUser()
         this.addChild(this.userInfo)
     }
 
-    private initUserData() {
-        let nickName = new egret.TextField()
-        let level = new egret.TextField()
-
-
+    private updateUser() {
         let user = this.getUser()
-        // console.log(user.getName(), user, "ddddddddddddddd")
-        nickName.text = user.getName()
-        nickName.textColor = 0xff0000;
-        nickName.size = 20
-        nickName.y = 105
-        nickName.x = 100
-        level.text = "1"
-        level.size = 20
-        level.y = nickName.y + 75
-        level.x = 100
-        level.textColor = 0xff0000;
 
-        this.userInfo.addChild(nickName)
-        this.userInfo.addChild(level)
+        this.userInfo.update(user.nickName, 1)
     }
 
     private initGeneral() {
-        this.generalInfo = new egret.Sprite()
+        this.generalInfo = new GeneralInfo()
         this.generalInfo.x = this.userInfo.width
-
-        let bg = new egret.Bitmap(RES.getRes('general_png'));
-        this.generalInfo.addChild(bg);
+        this.updateGeneralData()
         this.addChild(this.generalInfo)
     }
 
-    private initGeneralData() {
-        let nickName = new egret.TextField()
-        let level = new egret.TextField()
-
-
+    private updateGeneralData() {
         let user = this.getUser()
-        nickName.text = user.getName()
-        nickName.textColor = 0xff0000;
-        nickName.size = 20
-        nickName.y = 105
-        nickName.x = 100
-        level.text = "1"
-        level.size = 20
-        level.y = nickName.y + 75
-        level.x = 100
-        level.textColor = 0xff0000;
-
-        this.userInfo.addChild(nickName)
-        this.userInfo.addChild(level)
+        let general = user.getFightGeneral
+        if (general){
+            this.generalInfo.update(general)
+        }
     }
 
     private reqFight(e: egret.TouchEvent) {

@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,client_msg_proto,game_def_proto,game_type_proto,game_bg_png,login_png,userInit_png,user_png,general_png,GameGeneralConfig_json,GameGlobalConfig_json,GameSkillConfig_json",
+			"keys": "checkbox_select_disabled_png,checkbox_select_down_png,checkbox_select_up_png,checkbox_unselect_png,selected_png,border_png,header_png,radiobutton_select_disabled_png,radiobutton_select_down_png,radiobutton_select_up_png,radiobutton_unselect_png,roundthumb_png,thumb_png,track_png,tracklight_png,handle_png,off_png,on_png,button_down_png,button_up_png,thumb_pb_png,track_pb_png,track_sb_png,bg_jpg,egret_icon_png,description_json,client_msg_proto,game_def_proto,game_type_proto,game_bg_png,login_png,userInit_png,user_png,general_png,GameGeneralConfig_json,GameGlobalConfig_json,GameSkillConfig_json,people_jpg,generalImg_png",
 			"name": "preload"
 		}
 	],
@@ -195,6 +195,16 @@
 			"url": "config/config/GameSkillConfig.json",
 			"type": "json",
 			"name": "GameSkillConfig_json"
+		},
+		{
+			"url": "assets/bg/people.jpg",
+			"type": "image",
+			"name": "people_jpg"
+		},
+		{
+			"url": "assets/bg/generalImg.png",
+			"type": "image",
+			"name": "generalImg_png"
 		}
 	]
 }

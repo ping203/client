@@ -12,8 +12,8 @@ class SkillConfig extends ConfigerBase {
 		}
 
 		return SkillConfig.instance;
-	}
 
+	}
 	public init(){
 		let config = RES.getRes('GameSkillConfig_json');
 		this.id2Conf = new Map

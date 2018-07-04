@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="UserInfoSkin" width="422" height="768" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="16465f5848f" ></w:Config>
+	<e:Rect width="420" height="768" x="1" y="-1" anchorOffsetX="0" anchorOffsetY="0" fillColor="0xffffff"/>
+	<e:Label id="level" text="" x="195" y="111" size="18" textColor="0xff4f4f"/>
+	<e:Label id="nickName" text="" x="194" y="77" size="18" textColor="0xff0a0a"/>
+	<e:Label text="等级：" x="26" y="111" size="18" textColor="0x000000"/>
+	<e:Label text="个人信息" x="159" y="24" textColor="0xcc6c6c" size="26"/>
+	<e:Label text="昵称：" x="26" y="77" size="18" textColor="0x000000"/>
+	<e:Image source="people_jpg" x="48.04" y="264.46" anchorOffsetX="25.04" width="390" anchorOffsetY="12.46" height="515"/>
+</e:Skin>

@@ -19,6 +19,7 @@ class FightPannel extends egret.Sprite {
 
 	public start(generals: Array<any>) {
 		this.initGenerals(generals)
+		this.fightInfo.clearText()
 
 		this.startBtn.touchEnabled = true;
 		this.startBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reqUseSkill, this);
@@ -33,14 +34,14 @@ class FightPannel extends egret.Sprite {
 		// this.bg = new egret.Bitmap(RES.getRes('login_png'));
 		// this.addChild(this.bg);
 
-		// this.initMyGeneral()
-		// this.initStage()
-		// this.initOpGeneral()
+		this.initMyGeneral()
+		this.initStage()
+		this.initOpGeneral()
 		this.initFightInfo()
 
-		// this.addChild(this.myGeneral)
-		// this.addChild(this.pkStage)
-		// this.addChild(this.opGeneral)
+		this.addChild(this.myGeneral)
+		this.addChild(this.pkStage)
+		this.addChild(this.opGeneral)
 		this.addChild(this.fightInfo)
 
 		this.startBtn = new eui.Button();
@@ -83,8 +84,8 @@ class FightPannel extends egret.Sprite {
 
 	private initFightInfo() {
 		this.fightInfo = new ScrollText()
-		console.log(this.fightInfo.width, this.fightInfo.height)
-		// this.fightInfo.addText("121212")
+		this.fightInfo.x = 1080
+		// console.log(this.fightInfo.width, this.fightInfo.height)
 	}
 
 	// 初始化双方武将
@@ -132,10 +133,26 @@ class FightPannel extends egret.Sprite {
 
 	private notifyGameStage(e: ServiceEvent) {
 		console.log("阶段变化", e.msg)
+		switch (e.msg.stage) {
+			case 1:
+				this.fightInfo.addText("回合开始")
+			case 2:
+				this.fightInfo.addText("决策开始:请选择使用技能")
+		}
 	}
 
 	private notifyUseSkill(e: ServiceEvent) {
-		console.log("使用技能", e.msg)
+		if (this.isMe(e.msg.userID)) {
+			this.fightInfo.addText("敌方使用技能"+e.msg.skillID)
+		}else {
+			this.fightInfo.addText("我方使用技能"+e.msg.skillID)
+		}
+	}
+
+	private isMe(userID: number): boolean {
+
+		let user = User.getInstance()
+		return user.userID == userID
 	}
 
 	private notifyGeneralStatus(e: ServiceEvent) {
@@ -143,13 +160,17 @@ class FightPannel extends egret.Sprite {
 	}
 
 	private notifyGameResult(e: ServiceEvent) {
-		console.log("游戏结果", e.msg)
+		this.fightInfo.addText("游戏结束")
 		let user = User.getInstance()
 		if (e.msg.winner == user.userID) {
-			alert("获得胜利")
+			this.fightInfo.addText("我方获得胜利")
 		} else {
-			alert("失败")
+			this.fightInfo.addText("敌方获得胜利")
 		}
+		
+		setTimeout(function() {
+			this.back2MainPannel()
+		}, 3000);
 	}
 
 	private gameEnd(e: ServiceEvent) {

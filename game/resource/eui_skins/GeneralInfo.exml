@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="GeneralInfoSkin" width="860" height="523" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="1646618605b" ></w:Config>
+	<e:Image source="general_png" x="-1" y="1"/>
+	<e:Image source="generalImg_png" x="509" y="122" anchorOffsetX="0" width="238" anchorOffsetY="0" height="386"/>
+	<e:Label id="generalName" text="" x="603.5" y="59" textColor="0xf030f2" size="30"/>
+	<e:Label id="hp" text="" x="270" y="142" size="28" textColor="0x06c993"/>
+	<e:Label id="atk" text="" x="270" y="178" size="28" textColor="0x06C993"/>
+	<e:Label id="def" text="" x="270" y="219.5" size="28" textColor="0x06C993"/>
+	<e:Label id="spa" text="" x="269.92" y="259" size="28" textColor="0x06C993"/>
+	<e:Label id="spdf" text="" x="269.92" y="301" size="28" textColor="0x06C993"/>
+	<e:Label id="spd" text="" x="269.84" y="341" size="28" textColor="0x06C993" rotation="359.84"/>
+	<e:Label id="skills" text="" x="269.84" y="383" size="28" textColor="0x06C993"/>
+	<e:Label id="level" text="" x="269.84" y="424" size="28" textColor="0x06C993"/>
+</e:Skin>
