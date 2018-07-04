@@ -6,6 +6,12 @@ class ServiceEvent extends egret.Event {
 	public static CMSG_CRESPUSERINIT = "cmsg.CRespUserInit"
 	public static CMSG_CNOTIFYDATACHANGE = "cmsg.CNotifyDataChange"
 	public static CMSG_CRESPUSESKILL = "cmsg.CRespUserSkill"
+
+	public static CMSG_CNOTIFYGAMESTAGE = "cmsg.CNotifyGameStage"
+	public static CMSG_CNOTIFYUSESKILL = "cmsg.CNotifyUseSkill"
+	public static CMSG_CNOTIFYGENERALSTATAUS = "cmsg.CNotifyGeneralStatus"
+	public static CMSG_CNOTIFYGAMERESULT = "cmsg.CNotifyGameResult"
+
 	public msg: any;// 信息
 	public constructor(type: string, bubbles: boolean = false, cancelable: boolean = false) {
 		super(type, bubbles, cancelable);

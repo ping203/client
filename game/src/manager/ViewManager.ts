@@ -74,7 +74,7 @@ class ViewManager extends egret.Sprite {
                 this.addChild(this.userInitPannel);
                 break;
             case FightPannel.FIGHT:
-                this.fightPannel.start();
+                this.fightPannel.start(e.data.generals);
                 this.addChild(this.fightPannel);
                 break;
             default:

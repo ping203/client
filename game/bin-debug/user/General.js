@@ -12,6 +12,7 @@ var Individual = (function () {
 __reflect(Individual.prototype, "Individual");
 var General = (function () {
     function General(info) {
+        this.setInfo(info);
     }
     General.prototype.getInfo = function () {
         return this.info;

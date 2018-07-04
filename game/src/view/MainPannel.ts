@@ -17,6 +17,8 @@ class MainPannel extends egret.Sprite {
 
         this.fightButton.touchEnabled = true;
         this.fightButton.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reqFight, this);
+        this.fightButton.x = 1266
+        this.fightButton.y = 700
         this.addChild(this.fightButton);
     }
 
@@ -124,7 +126,6 @@ class MainPannel extends egret.Sprite {
         var event: ChangeSceneEvent = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT)
         event.eventType = FightPannel.FIGHT
         event.data = e.msg
-        let user = e.msg.user
 
         event.obj = this
         ViewManager.getInstance().dispatchEvent(event)

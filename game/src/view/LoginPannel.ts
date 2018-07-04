@@ -17,7 +17,7 @@ class LoginPannel extends egret.Sprite {
     }
     public offset() {
 
-        console.log(this.width, this.height)
+        // console.log(this.width, this.height)
 
         this.input.width = this.width * 0.3
         this.loginText.x = this.width * 0.5 - (this.input.width + this.loginText.width) / 2

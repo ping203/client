@@ -104,6 +104,8 @@ class Main extends eui.UILayer {
 
         this.viewManager = ViewManager.getInstance()
         this.addChild(this.viewManager)
+
+        GeneralConfig.getInstance()
     }
 
     protected connect(): void {

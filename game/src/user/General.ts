@@ -11,6 +11,7 @@ class Individual {
 class General {
 	private info: any
 	public constructor(info: any) {
+		this.setInfo(info)
 	}
 
 	public getInfo(): any {
