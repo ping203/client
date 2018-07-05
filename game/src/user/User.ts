@@ -37,19 +37,20 @@ class User {
 	public updateGeneral(generals: Array<any>) {
 		for (let i in generals) {
 			let general = generals[i]
-			let g = this.getByPkID(general.pkiID)
-			if (g == null) {
+			// console.log(general)
+			let gen = this.getByPkID(general.pkID)
+			if (gen == null) {
 				let item = new General(general)
-				this.generals.set(general.pkID, general)
+				this.generals.set(general.pkID, item)
 			} else {
-				g.setInfo(general)
+				gen.setInfo(general)
 			}
 		}
 	}
 
 
 	public update(e: ServiceEvent) {
-		console.log("user update:", this)
+		// console.log("user update:", this)
 		if (e.msg.changes.length == 0) {
 			return
 		}

@@ -28,7 +28,7 @@ message User {
     uint64 userID = 1; //玩家ID
     string nickname = 2; //昵称
     uint32 sexID = 3; //性别
-    uint32 fightGeneralID = 4; // 上阵武将ID
+    uint64 fightGeneralID = 4; // 上阵武将ID
 }
 
 message Individual {
@@ -84,6 +84,7 @@ message GameGeneral {
     repeated uint32 skills = 11;
     uint64 userID = 12;
     uint64 pkID = 13;
+    Individual individual = 14;
 }
 
 enum GameStageTyp {

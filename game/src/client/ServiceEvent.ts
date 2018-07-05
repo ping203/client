@@ -6,9 +6,11 @@ class ServiceEvent extends egret.Event {
 	public static CMSG_CRESPUSERINIT = "cmsg.CRespUserInit"
 	public static CMSG_CNOTIFYDATACHANGE = "cmsg.CNotifyDataChange"
 	public static CMSG_CRESPUSESKILL = "cmsg.CRespUserSkill"
+	public static CMSG_CRESPLEARNSKILL = "cmsg.CRespLearnSkill"
+	public static CMSG_CRESPCATCH = "cmsg.CRespCatch"
 
 	public static CMSG_CNOTIFYGAMESTAGE = "cmsg.CNotifyGameStage"
-	public static CMSG_CNOTIFYUSESKILL = "cmsg.CNotifyUseSkill"
+	public static CMSG_CNOTIFYGAMEACTION = "cmsg.CNotifyGameAction"
 	public static CMSG_CNOTIFYGENERALSTATAUS = "cmsg.CNotifyGeneralStatus"
 	public static CMSG_CNOTIFYGAMERESULT = "cmsg.CNotifyGameResult"
 

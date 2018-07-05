@@ -53,9 +53,10 @@ class MainPannel extends egret.Sprite {
 
     private updateGeneralData() {
         let user = this.getUser()
-        let general = user.getFightGeneral
+        let general = user.getFightGeneral()
+        console.log(general)
         if (general){
-            this.generalInfo.update(general)
+            this.generalInfo.update(general.getInfo())
         }
     }
 
@@ -95,6 +96,32 @@ class MainPannel extends egret.Sprite {
         event.obj = this
         ViewManager.getInstance().dispatchEvent(event)
     }
+
+    private reqLearnSkill(e: egret.TouchEvent) {
+        let protoMgr = ProtoBuffManager.getInstance()
+        const msg = protoMgr.root.lookupType("cmsg.CReqLearnSkill");
+
+        let message = msg.create({ skillID: 1 });
+        // console.log(`message = ${JSON.stringify(message)}`);
+
+        console.log(message)
+        let buffer = msg.encode(message).finish();
+
+        protoMgr.sendMsg("cmsg.CReqLearnSkill", buffer)
+        ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CRESPLEARNSKILL, this.respLearnSkill, this)
+
+    }
+    
+    private respLearnSkill(e: ServiceEvent) {
+        ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CRESPLEARNSKILL, this.respLearnSkill, this)
+        if (e.msg.errCode && e.msg.errCode != 0) {
+            alert(e.msg.errMsg)
+        }else {
+            alert("学习成功")
+        }
+
+    }
+
 
     private getUser(): User {
         return User.getInstance()

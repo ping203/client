@@ -29,18 +29,19 @@ var User = (function () {
     User.prototype.updateGeneral = function (generals) {
         for (var i in generals) {
             var general = generals[i];
-            var g = this.getByPkID(general.pkiID);
-            if (g == null) {
+            // console.log(general)
+            var gen = this.getByPkID(general.pkID);
+            if (gen == null) {
                 var item = new General(general);
-                this.generals.set(general.pkID, general);
+                this.generals.set(general.pkID, item);
             }
             else {
-                g.setInfo(general);
+                gen.setInfo(general);
             }
         }
     };
     User.prototype.update = function (e) {
-        console.log("user update:", this);
+        // console.log("user update:", this)
         if (e.msg.changes.length == 0) {
             return;
         }
