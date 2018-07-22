@@ -31,6 +31,7 @@ class ScrollText extends eui.Component implements eui.UIComponent {
 
 	public clearText() {
 		this.fightText.text = ""
+		this.textScroll.viewport.scrollV = 0
 	}
 
 }

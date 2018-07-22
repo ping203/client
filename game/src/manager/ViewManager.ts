@@ -43,7 +43,7 @@ class ViewManager extends egret.Sprite {
         this.fightPannel = new FightPannel();
         this.addChild(this.loginPannel);
         this.loginPannel.start();
-        
+
         this.user = User.getInstance()
         this.addEventListener(ChangeSceneEvent.CHANGE_SCENE_EVENT, this.onChangeScene, this);
 
@@ -76,6 +76,10 @@ class ViewManager extends egret.Sprite {
             case FightPannel.FIGHT:
                 this.fightPannel.start(e.data.generals);
                 this.addChild(this.fightPannel);
+                break;
+            case MainPannel.CHANGEPANEL:
+                this.mainPannel.start();
+                this.addChild(this.mainPannel);
                 break;
             default:
                 this.loginPannel.start();

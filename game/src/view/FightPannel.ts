@@ -5,11 +5,10 @@ class FightPannel extends egret.Sprite {
 	public static FIGHT: string = "fight";
 	private generals: Map<number, GameGeneral>
 	private startBtn: eui.Button;
-	private catBtn: eui.Button;
-	private pkStage: egret.Sprite; // 交战界面
+	private quitBtn: eui.Button;
 	private gameStage: egret.Sprite; // 战斗操作界面
-	private myGeneral: egret.Sprite; // 我方武将信息界面
-	private opGeneral: egret.Sprite; // 敌方武将信息界面
+	private myGeneral: FightGeneral; // 我方武将信息界面
+	private opGeneral: FightGeneral; // 敌方武将信息界面
 	private fightInfo: ScrollText; // 战斗信息界面
 	private gameResultWindow: egret.Sprite; // 结算弹窗
 
@@ -22,10 +21,12 @@ class FightPannel extends egret.Sprite {
 		this.initGenerals(generals)
 		this.fightInfo.clearText()
 
+
+		this.startBtn.visible = true
 		this.startBtn.touchEnabled = true;
-		this.startBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reqUseSkill, this);
-		this.catBtn.touchEnabled = true;
-		this.catBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reqCatch, this);
+		this.quitBtn.visible = false
+		this.quitBtn.touchEnabled = false;
+		this.startBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.useSkill, this);
 		ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CNOTIFYGAMESTAGE, this.notifyGameStage, this);
 		ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CNOTIFYGAMEACTION, this.notifyGameAction, this);
 		ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CNOTIFYGENERALSTATAUS, this.notifyGeneralStatus, this);
@@ -38,72 +39,59 @@ class FightPannel extends egret.Sprite {
 		// this.addChild(this.bg);
 
 		this.initMyGeneral()
-		this.initStage()
 		this.initOpGeneral()
 		this.initFightInfo()
 
 		this.addChild(this.myGeneral)
-		this.addChild(this.pkStage)
 		this.addChild(this.opGeneral)
 		this.addChild(this.fightInfo)
 
 		this.startBtn = new eui.Button();
-		this.startBtn.x = 1000
-		this.startBtn.y = 700
 		this.startBtn.label = '使用技能';
+		this.startBtn.x = 1200
+		this.startBtn.y = 700
 		this.addChild(this.startBtn);
 
-		this.catBtn = new eui.Button();
-		this.catBtn.label = '捕捉';
-		this.catBtn.x = 1200
-		this.catBtn.y = 700
-		this.addChild(this.catBtn);
+		this.quitBtn = new eui.Button();
+		this.quitBtn.label = '退出';
+		this.quitBtn.x = 1200
+		this.quitBtn.y = 700
+		this.addChild(this.quitBtn);
+		this.quitBtn.visible = false
 	}
 
 	private initMyGeneral() {
-		this.myGeneral = new egret.Sprite
-
-		let bg = new egret.Bitmap(RES.getRes('login_png'));
-		bg.width = 360
-		this.myGeneral.addChild(bg);
+		this.myGeneral = new FightGeneral("我方")
+		this.myGeneral.scaleX = 1.2
+		this.myGeneral.scaleY = 1.2
 	}
 
 	private initOpGeneral() {
-		this.opGeneral = new egret.Sprite
-		this.opGeneral.x = 720
+		this.opGeneral = new FightGeneral("敌方")
+		this.opGeneral.x = this.myGeneral.width * this.myGeneral.scaleX
 
-		let bg = new egret.Bitmap(RES.getRes('login_png'));
-		bg.width = 360
-		this.opGeneral.addChild(bg);
+		this.opGeneral.scaleX = 1.2
+		this.opGeneral.scaleY = 1.2
 	}
 
-	private initStage() {
-		this.pkStage = new egret.Sprite
-		this.pkStage.x = this.myGeneral.x + 360
-
-		let up = new egret.Bitmap(RES.getRes('login_png'));
-		up.width = 360
-		up.height = 384
-		let down = new egret.Bitmap(RES.getRes('login_png'));
-		down.width = 360
-		down.height = 384
-		down.y = 384
-
-		this.pkStage.addChild(up)
-		this.pkStage.addChild(down)
-	}
 
 	private initFightInfo() {
 		this.fightInfo = new ScrollText()
-		this.fightInfo.x = 1080
+		this.fightInfo.y = this.myGeneral.height * this.myGeneral.scaleY + 20
 		// console.log(this.fightInfo.width, this.fightInfo.height)
 	}
 
 	// 初始化双方武将
 	private initGenerals(generals: Array<any>) {
+		let user = User.getInstance()
 		for (let i in generals) {
 			let general = new GameGeneral(generals[i])
 			this.generals.set(generals[i].userID, general)
+			if (generals[i].userID == user.userID) {
+				this.myGeneral.update(generals[i])
+			} else {
+				this.opGeneral.update(generals[i])
+			}
 			console.log("初始化武将:", general.getInfo())
 		}
 	}
@@ -122,33 +110,11 @@ class FightPannel extends egret.Sprite {
 		ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CRESPUSESKILL, this.respUseSkill, this)
 	}
 
-	private userSkill() {
+	private useSkill() {
 		this.reqUseSkill(1)
 	}
 
 	public respUseSkill(e: ServiceEvent) {
-		ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CRESPUSESKILL, this.respUseSkill, this)
-		if (e.msg.errCode && e.msg.errCode != 0) {
-			alert(e.msg.errMsg)
-			return
-		}
-	}
-
-	private reqCatch() {
-		let protoMgr = ProtoBuffManager.getInstance()
-		const msg = protoMgr.root.lookupType("cmsg.CReqCatch");
-
-		let message = msg.create()
-		// console.log(`message = ${JSON.stringify(message)}`);
-
-		console.log(message)
-		let buffer = msg.encode(message).finish();
-
-		protoMgr.sendMsg("cmsg.CReqCatch", buffer)
-		ProtoProxy.getInstance().addEventListener(ServiceEvent.CMSG_CRESPCATCH, this.respUseSkill, this)
-	}
-
-	private respCatch(e: ServiceEvent)  {
 		ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CRESPUSESKILL, this.respUseSkill, this)
 		if (e.msg.errCode && e.msg.errCode != 0) {
 			alert(e.msg.errMsg)
@@ -175,28 +141,72 @@ class FightPannel extends egret.Sprite {
 	}
 
 	private notifyGameAction(e: ServiceEvent) {
+		if (!e.msg) {
+			return
+		}
 		switch (e.msg.type) {
 			case 1:
-				if (this.isMe(e.msg.userID)) {
-					this.fightInfo.addText("敌方使用技能" + e.msg.skillID)
-				} else {
-					this.fightInfo.addText("我方使用技能" + e.msg.skillID)
-				}
+				this.notifyUserSkill(e)
 				break
 			case 2:
-				this.fightInfo.addText("捕捉敌方武将")
+				this.notifyUserSkill(e)
 				break
 		}
 	}
 
-	private isMe(userID: number): boolean {
+	private notifyUserSkill(e: ServiceEvent) {
+		if (this.isMe(e.msg.userID)) {
+			this.fightInfo.addText("我方使用技能" + e.msg.skillID)
+		} else {
+			this.fightInfo.addText("敌方使用技能" + e.msg.skillID)
+		}
+	}
 
+	private notifyCatch(e: ServiceEvent) {
+		if (this.isMe(e.msg.userID)) {
+			this.fightInfo.addText("我方使用捕捉")
+		} else {
+			this.fightInfo.addText("敌方使用捕捉")
+		}
+	}
+
+	private isMe(userID: number): boolean {
 		let user = User.getInstance()
-		return user.userID == userID
+		if (user.userID == userID) {
+			return true
+		} else {
+			return false
+		}
 	}
 
 	private notifyGeneralStatus(e: ServiceEvent) {
-		console.log("武将信息变化", e.msg)
+		if (!e.msg) {
+			return
+		}
+		let userID = e.msg.gameGeneral.userID
+		if (this.isMe(userID)) {
+			let before = this.myGeneral.getInfo()
+			this.printFightInfo(true, before, e.msg.gameGeneral)
+			this.myGeneral.update(e.msg.gameGeneral)
+		} else {
+			let before = this.opGeneral.getInfo()
+			this.printFightInfo(false, before, e.msg.gameGeneral)
+			this.opGeneral.update(e.msg.gameGeneral)
+		}
+	}
+
+	private printFightInfo(isMe: boolean, before: any, after: any) {
+		let user = "我方"
+		if (!isMe) {
+			user = "敌方"
+		}
+
+		if (before.curHP != after.curHP) {
+			if (after.curHP < before.curHP) {
+				let text = user + "受到" + (before.curHP - after.curHP) + "伤害"
+				this.fightInfo.addText(text)
+			}
+		}
 	}
 
 	private notifyGameResult(e: ServiceEvent) {
@@ -208,14 +218,26 @@ class FightPannel extends egret.Sprite {
 			this.fightInfo.addText("敌方获得胜利")
 		}
 
-		let that = this
-		setTimeout(function () {
-			that.back2MainPannel()
-		}, 3000);
+		this.fightInfo.addText("获得经验" + e.msg.exp)
+		this.startBtn.visible = false
+		this.startBtn.touchEnabled = false;
+		this.quitBtn.visible = true
+		this.quitBtn.touchEnabled = true;
+
+		this.quitBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.quit, this);
+
 	}
 
 	private gameEnd(e: ServiceEvent) {
 		console.log("游戏结束", e.msg)
+	}
+
+	private quit() {
+		var event: ChangeSceneEvent = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT)
+		event.eventType = MainPannel.CHANGEPANEL
+
+		event.obj = this
+		ViewManager.getInstance().dispatchEvent(event)
 	}
 	//结束界面，释放监听
 	public end() {
@@ -230,5 +252,7 @@ class FightPannel extends egret.Sprite {
 			ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CNOTIFYGENERALSTATAUS, this.notifyGeneralStatus, this);
 		if (ProtoProxy.getInstance().hasEventListener(ServiceEvent.CMSG_CNOTIFYGAMERESULT))
 			ProtoProxy.getInstance().removeEventListener(ServiceEvent.CMSG_CNOTIFYGAMERESULT, this.notifyGeneralStatus, this);
+		if (this.quitBtn.hasEventListener(egret.TouchEvent.TOUCH_TAP))
+			this.quitBtn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.quit, this);
 	}
 }

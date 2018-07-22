@@ -23,7 +23,7 @@ class LoginPannel extends egret.Sprite {
         this.loginText.x = this.width * 0.5 - (this.input.width + this.loginText.width) / 2
         this.loginText.y = this.height * 0.8
 
-        this.input.x = this.loginText.x+ this.loginText.width
+        this.input.x = this.loginText.x + this.loginText.width
         this.input.y = this.loginText.y
 
         this.startBtn.width = this.width * 0.05
@@ -105,15 +105,15 @@ class LoginPannel extends egret.Sprite {
             return
         }
 
+        let user = e.msg.user
+        User.getInstance().updateUser(user.nickname, user.userID, user.fightGeneralID)
+        User.getInstance().updateGeneral(e.msg.generals)
+
         var event: ChangeSceneEvent = new ChangeSceneEvent(ChangeSceneEvent.CHANGE_SCENE_EVENT)
         event.eventType = LoginPannel.LOGIN
         if (!e.msg.user.nickname) {
             event.eventType = UserInitPannel.Init
         }
-
-        let user = e.msg.user
-        User.getInstance().updateUser(user.nickname, user.userID, user.fightGeneralID)
-        User.getInstance().updateGeneral(e.msg.generals)
 
         event.obj = this
         ViewManager.getInstance().dispatchEvent(event)

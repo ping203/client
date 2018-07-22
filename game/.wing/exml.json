@@ -1,35 +1,35 @@
 {
-    "16465cb223c": {
-        "path": "compenent\\ScrollText.ts",
-        "class": "ScrollText",
-        "parentPath": ""
-    },
-    "16465f06882": {
-        "path": "compenent\\UserWindow.ts",
-        "class": "UserWindow",
-        "parentPath": ""
-    },
-    "16465f5848f": {
-        "path": "compenent\\UserInfo.ts",
-        "class": "UserInfo",
-        "parentPath": ""
-    },
-    "164660d6619": {
-        "path": "compenent\\ds.ts",
-        "class": "ds",
-        "parentPath": ""
-    },
-    "1646618605b": {
-        "path": "compenent\\GeneralInfo.ts",
-        "class": "GeneralInfo",
-        "parentPath": ""
-    },
-    "global": {
-        "globalAutoLayerMarkEnable": false
-    },
-    "164698cce66": {
-        "path": "compenent\\GameGeneral.ts",
-        "class": "GameGeneral",
-        "parentPath": ""
-    }
+  "16465cb223c": {
+    "path": "compenent\\ScrollText.ts",
+    "class": "ScrollText",
+    "parentPath": ""
+  },
+  "16465f06882": {
+    "path": "compenent\\UserWindow.ts",
+    "class": "UserWindow",
+    "parentPath": ""
+  },
+  "16465f5848f": {
+    "path": "compenent\\UserInfo.ts",
+    "class": "UserInfo",
+    "parentPath": ""
+  },
+  "164660d6619": {
+    "path": "compenent\\ds.ts",
+    "class": "ds",
+    "parentPath": ""
+  },
+  "1646618605b": {
+    "path": "compenent\\GeneralInfo.ts",
+    "class": "GeneralInfo",
+    "parentPath": ""
+  },
+  "global": {
+    "globalAutoLayerMarkEnable": true
+  },
+  "164c2882cba": {
+    "path": "..\\resource\\eui_skins\\fightGeneral.ts",
+    "class": "fightGeneral",
+    "parentPath": ""
+  }
 }

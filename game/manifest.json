@@ -21,6 +21,7 @@
 		"bin-debug/client/ProtoEvent.js",
 		"bin-debug/client/ProtoProxy.js",
 		"bin-debug/client/ServiceEvent.js",
+		"bin-debug/compenent/FightGeneral.js",
 		"bin-debug/compenent/GeneralInfo.js",
 		"bin-debug/compenent/ScrollText.js",
 		"bin-debug/compenent/UserInfo.js",

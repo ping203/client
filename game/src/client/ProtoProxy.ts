@@ -22,6 +22,9 @@ class ProtoProxy extends egret.EventDispatcher {
 	public receiveMessage(e: ProtoEvent) {
 		let protoMgr = ProtoBuffManager.getInstance()
 		let type = protoMgr.getType(e.id)
+		if (!type){
+			return
+		}
 		let messageType = protoMgr.root.lookupType(type)
 
 		let msg = messageType.decode(e.msg.bytes)

@@ -8,7 +8,7 @@ declare module skins{
 }
 declare class dsSkin extends eui.Skin{
 }
-declare class GameGeneralSkin extends eui.Skin{
+declare class fightGeneralSkin extends eui.Skin{
 }
 declare class GeneralInfoSkin extends eui.Skin{
 }
