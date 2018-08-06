@@ -30,11 +30,11 @@ class GeneralInfo extends eui.Component implements eui.UIComponent {
 		}
 		this.generalName.text = conf.GeneralName
 		this.hp.text = ""+Math.floor((conf.Hp * 2 + info.individual.hp + info.effort.hp / 4) * (info.level) / 100 + (info.level) + 10)
-		this.atk.text = ""+Math.floor((conf.Atk * 2 + info.individual.attack + info.effort.attack / 4) * (info.level) / 100 + (info.level) + 10)
-		this.def.text = ""+Math.floor((conf.Def * 2 + info.individual.defense + info.effort.defense / 4) * (info.level) / 100 + (info.level) + 10)
-		this.spa.text = ""+Math.floor((conf.Satk * 2 + info.individual.spAttack + info.effort.spAttack / 4) * (info.level) / 100 + (info.level) + 10)
-		this.spdf.text = ""+Math.floor((conf.Sdef * 2 + info.individual.spAttack + info.effort.spAttack / 4) * (info.level) / 100 + (info.level) + 10)
-		this.spd.text = ""+Math.floor((conf.Spd * 2 + info.individual.speed + info.effort.speed / 4) * (info.level) / 100 + (info.level) + 10)
+		this.atk.text = ""+Math.floor((conf.Atk * 2 + info.individual.attack + info.effort.attack / 4) * (info.level) / 100 + 5)
+		this.def.text = ""+Math.floor((conf.Def * 2 + info.individual.defense + info.effort.defense / 4) * (info.level) / 100 + 5)
+		this.spa.text = ""+Math.floor((conf.Satk * 2 + info.individual.spAttack + info.effort.spAttack / 4) * (info.level) / 100 + 5)
+		this.spdf.text = ""+Math.floor((conf.Sdef * 2 + info.individual.spAttack + info.effort.spAttack / 4) * (info.level) / 100 + 5)
+		this.spd.text = ""+Math.floor((conf.Spd * 2 + info.individual.speed + info.effort.speed / 4) * (info.level) / 100 + 5)
 		this.level.text = info.level
 
 		let skillConfMgr = SkillConfig.getInstance()

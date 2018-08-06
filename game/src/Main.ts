@@ -110,7 +110,7 @@ class Main extends eui.UILayer {
 
     protected connect(): void {
         var client = Client.getInstance()
-        client.connect("127.0.0.1", 3564)
+        client.connect("10.225.10.187", 3564)
 
         ProtoBuffManager.getInstance()
     }

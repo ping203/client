@@ -94,4 +94,3 @@ var UserInitPannel = (function (_super) {
     return UserInitPannel;
 }(egret.Sprite));
 __reflect(UserInitPannel.prototype, "UserInitPannel");
-//# sourceMappingURL=UserInitPannel.ts.js.map

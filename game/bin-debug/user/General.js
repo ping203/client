@@ -23,4 +23,3 @@ var General = (function () {
     return General;
 }());
 __reflect(General.prototype, "General");
-//# sourceMappingURL=General.js.map
